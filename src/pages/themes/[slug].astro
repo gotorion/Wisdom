@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import { base, sectionText } from '../../lib/entries';
+
+export async function getStaticPaths() {
+  const themes = await getCollection('themes');
+  return themes.map((theme) => ({ params: { slug: theme.id }, props: { theme } }));
+}
+
+const { theme } = Astro.props;
+const { Content } = await render(theme);
+const name = (theme.body?.match(/^#\s+(.+)$/m)?.[1] ?? theme.id).trim();
+const lead = (theme.body ?? '').split('\n').slice(1, 4).join(' ').replace(/[#>]/g, '').trim();
+---
+
+<Base title={`${name} · BeHappy`} description={lead} bodyClass="read">
+  <article class="theme" data-bg="#e6e5e1" data-ink="#0b0b0b">
+    <h1>{name}</h1>
+
+    <div class="theme__body">
+      <Content />
+    </div>
+
+    <a class="back back--end" href={`${base}/#themes`}>← 回到主题</a>
+  </article>
+
+  <Footer />
+</Base>

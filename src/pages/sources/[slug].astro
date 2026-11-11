@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+import { base, formatDate, sectionText } from '../../lib/entries';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('sources');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const summary = sectionText(entry.body ?? '', '一句话');
+const date = formatDate(entry.data.date);
+const parts = entry.data.title.split(' · ');
+const headline = parts.length > 1 ? parts[parts.length - 1] : entry.data.title;
+const sourceName = parts.length > 1 ? parts.slice(0, -1).join(' · ') : '';
+---
+
+<Base title={`${entry.data.title} · BeHappy`} description={summary} bodyClass="read">
+  <article class="entry" data-bg="#e6e5e1" data-ink="#0b0b0b">
+    <div class="entry__grid">
+      <div class="entry__main">
+        <h1 class="entry__title">{headline}</h1>
+        {summary && <p class="entry__lede">{summary}</p>}
+        <div class="entry__body">
+          <Content />
+        </div>
+      </div>
+
+      <aside class="entry__aside" aria-label="出处">
+        <div class="aside-block">
+          <p class="aside-block__label">说话的人</p>
+          <p class="aside-block__value">{entry.data.speaker}</p>
+        </div>
+
+        {sourceName && (
+          <div class="aside-block">
+            <p class="aside-block__label">场合</p>
+            <p class="aside-block__value">{sourceName}</p>
+          </div>
+        )}
+
+        <div class="aside-block">
+          <p class="aside-block__label">时间</p>
+          <p class="aside-block__value">{date}</p>
+        </div>
+
+        <div class="aside-block">
+          <p class="aside-block__label">原片</p>
+          <a class="aside-block__link" href={entry.data.url} rel="noopener">看原片 ↗</a>
+        </div>
+
+        {entry.data.tags.length > 0 && (
+          <div class="aside-block">
+            <p class="aside-block__label">主题</p>
+            <p class="aside-block__value">{entry.data.tags.join(' · ')}</p>
+          </div>
+        )}
+      </aside>
+    </div>
+
+    <a class="back back--end" href={`${base}/#entries`}>← 回到全部条目</a>
+  </article>
+
+  <Footer />
+</Base>

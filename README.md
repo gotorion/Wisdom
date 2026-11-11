@@ -2,6 +2,8 @@
 
 别人讲过的、真的击中过我的话。每一条都带着出处：原话、为什么和我有关、后来有没有用上。
 
+在线版：<https://gotorion.github.io/Wisdom/>
+
 ## 如果只读三条
 
 > 放当下最值得读的三条，定期换。这一栏就是整个仓库的价值密度。
@@ -24,6 +26,14 @@
 sources/   一篇来源一个文件，命名 YYYY-MM-DD-作者-主题.md
 themes/    手写的主题聚合，把不同来源的条目串起来
 templates/ 写新条目时复制这里的模板
+src/       Astro 站点，读上面的 Markdown 生成页面
+```
+
+站点会直接读 `sources/` 和 `themes/`，合并进仓库就会自动出现在页面上。本地预览：
+
+```bash
+npm install
+npm run dev
 ```
 
 ## 一条记录怎么写

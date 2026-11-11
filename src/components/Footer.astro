@@ -1,0 +1,24 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+
+<footer class="closing" data-bg="#0b0b0b" data-ink="#e6e5e1" data-chapter="dark">
+  <div class="closing__notes">
+    <span>语录版权归原作者，本页只做短引用并附出处。</span>
+    <span>内容以 Markdown 存在仓库里，一篇文章一个文件。</span>
+  </div>
+
+  <a
+    class="closing__link"
+    href="https://github.com/gotorion/Wisdom"
+    rel="noopener">gotorion.github.io/Wisdom</a
+  >
+
+  <div class="closing__meta">
+    <span>{year} · BeHappy</span>
+    <span>
+      <a href={`${base}/`}>回到开头</a>
+    </span>
+  </div>
+</footer>

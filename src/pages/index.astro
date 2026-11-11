@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import { base, firstQuote, formatDate, getEntrySummaries } from '../lib/entries';
+
+const entries = await getEntrySummaries();
+const first = entries[0];
+const themeEntries = await getCollection('themes');
+
+const themes = themeEntries
+  .map((theme) => {
+    const body = theme.body ?? '';
+    const name = (body.match(/^#\s+(.+)$/m)?.[1] ?? theme.id).trim();
+    const count = (body.match(/\.\.\/sources\//g) ?? []).length;
+    return { id: theme.id, name, count };
+  })
+  .sort((a, b) => b.count - a.count);
+
+const quote = first ? firstQuote(first.entry.body ?? '') : '';
+const hrefs = entries.map(({ entry }) => `${base}/sources/${entry.id}/`);
+
+const method = [
+  ['一句话', '用我自己的话重写一遍，短到能背下来。写不出来，就是还没读懂。'],
+  ['原话', '两三句引用，附上链接。不整段搬运，也不替说话的人润色。'],
+  ['为什么击中我', '当时在纠结什么，为什么偏偏是这一句，而不是同一段里的别的句子。'],
+  ['后来用上了', '什么时候真的照着做了，结果如何。这一条最容易被跳过，也最重要。'],
+];
+---
+
+<Base title="BeHappy · 别人的话，我只留几句">
+  <header class="hero" data-bg="#e6e5e1" data-ink="#0b0b0b">
+    <div class="hero__field hero__field--paper"></div>
+    <div class="hero__field hero__field--mustard"></div>
+    <div class="hero__inner">
+      <h1 class="hero__title">
+        <span>别人的话，</span>
+        <span>我只留几句</span>
+      </h1>
+      <p class="hero__lede">
+        这里是我从演讲、访谈和最后一堂课里记下来的话。每条都标着出处、原话，和它为什么和我有关。
+      </p>
+    </div>
+    <div class="hero__foot">
+      <button class="shuffle shuffle--hero" id="shuffle" type="button" data-hrefs={hrefs.join(',')}>
+        随便翻一条
+      </button>
+    </div>
+  </header>
+
+  {first && (
+    <section class="shortlist wrap" data-bg="#dfa90c" data-ink="#0b0b0b" aria-labelledby="shortlist-title">
+      <div class="shortlist__grid">
+        <div class="shortlist__left">
+          <h2 class="section-title reveal" id="shortlist-title">先读这条</h2>
+          <p class="shortlist__statement reveal">{first.summary}</p>
+          <p class="shortlist__meta reveal">
+            {first.entry.data.speaker} · {formatDate(first.entry.data.date)}
+            <a href={`${base}/sources/${first.entry.id}/`}>读全文</a>
+          </p>
+        </div>
+        {quote && (
+          <div class="shortlist__right reveal">
+            <blockquote class="shortlist__quote">
+              {quote}
+              <cite>{first.entry.data.speaker}</cite>
+            </blockquote>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="method" data-bg="#e6e5e1" data-ink="#0b0b0b" aria-labelledby="method-title">
+    <div class="method__grid wrap">
+      <div class="method__intro">
+        <h2 class="section-title reveal" id="method-title">每条都长这样</h2>
+        <p class="reveal">
+          不是摘抄。摘抄只证明我读过；下面这四样凑齐了，才算我真的拿它想过一次事。
+        </p>
+      </div>
+      <ul class="method__list">
+        {method.map(([label, text]) => (
+          <li class="reveal">
+            <span class="label">{label}</span>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div class="index wrap" data-bg="#dfa90c" data-ink="#0b0b0b">
+    <section class="index__themes" id="themes" aria-labelledby="themes-title">
+      <h2 class="section-title reveal" id="themes-title">主题</h2>
+      <ul class="theme-list reveal">
+        {themes.map((theme) => (
+          <li>
+            <a href={`${base}/themes/${theme.id}/`}>{theme.name}</a>
+            <span>{theme.count}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="index__entries" id="entries" aria-labelledby="entries-title">
+      <h2 class="section-title reveal" id="entries-title">全部条目</h2>
+      <ul class="entry-table reveal">
+        {entries.map(({ entry }) => (
+          <li>
+            <a href={`${base}/sources/${entry.id}/`}>
+              <span class="entry-table__date">{formatDate(entry.data.date)}</span>
+              <span class="entry-table__speaker">{entry.data.speaker}</span>
+              <span class="entry-table__title">{entry.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  <Footer />
+</Base>
+
+<script>
+  const shuffle = document.getElementById('shuffle');
+  if (shuffle) {
+    shuffle.addEventListener('click', () => {
+      const hrefs = (shuffle.dataset.hrefs ?? '').split(',').filter(Boolean);
+      if (hrefs.length === 0) return;
+      const current = location.pathname;
+      const pool = hrefs.length > 1 ? hrefs.filter((href) => href !== current) : hrefs;
+      const next = pool[Math.floor(Math.random() * pool.length)] ?? hrefs[0];
+      location.assign(next);
+    });
+  }
+</script>
