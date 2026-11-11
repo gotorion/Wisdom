@@ -34,6 +34,7 @@ tags: [比较, 自我价值, 焦虑]
 
 ## 备注
 
-- 来源：B站搬运并中译（投稿于 2022-08-24），原视频为 YouTube `W9mnxeO_mNc`，即 61A Fall 2019 Lecture 39 Video 4。
+- 原视频（YouTube）：https://www.youtube.com/watch?v=W9mnxeO_mNc&t=2s — 61A Fall 2019 Lecture 39 Video 4
+- 中译搬运（B站）：https://www.bilibili.com/video/BV1MV4y1W7T1/
 - 英文转写取自公开博客的听写稿，原稿有少量拼写错误，已按语义订正。
 - 具体讲授日期未核实，`date` 只精确到月份。
