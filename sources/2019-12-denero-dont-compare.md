@@ -18,10 +18,6 @@ tags: [比较, 自我价值, 焦虑]
 
 > It took years of this two-word phrase "don't compare" to marinate inside of me and for me to realize that my self-worth really has nothing to do with what other people can do or whether I can do it better than them or worse than them. It has everything to do with what I've done and what I'm gonna do next and how I spend my time and better myself.
 
-## 为什么击中我
-
-（待填：当时在为什么焦虑？在和谁比？比的是什么？）
-
 ## 后来用上了
 
 （待填）
