@@ -17,8 +17,6 @@
 | 主题 | 条数 | 最近更新 |
 |---|---|---|
 | [比较](themes/comparison.md) | 1 | 2019-12 |
-| [决策](themes/decision.md) | 1 | 2025-06-01 |
-| [长期主义](themes/long-term.md) | 1 | 2025-06-01 |
 
 ## 目录
 
