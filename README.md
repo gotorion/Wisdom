@@ -6,7 +6,7 @@
 
 > 放当下最值得读的三条，定期换。这一栏就是整个仓库的价值密度。
 
-1. [示例：先把不重要的东西砍掉](sources/2025-06-01-example-speaker.md) — 待替换
+1. [不要比较](sources/2019-12-denero-dont-compare.md) — John DeNero
 2. —（待填）
 3. —（待填）
 
@@ -16,6 +16,7 @@
 
 | 主题 | 条数 | 最近更新 |
 |---|---|---|
+| [比较](themes/comparison.md) | 1 | 2019-12 |
 | [决策](themes/decision.md) | 1 | 2025-06-01 |
 | [长期主义](themes/long-term.md) | 1 | 2025-06-01 |
 
